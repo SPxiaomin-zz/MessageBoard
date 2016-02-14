@@ -21,7 +21,7 @@ function route(handle, pathname, req, res) {
                 res.write('This request URL ' + pathname + ' was not found on this server.');
                 res.end();
             } else {
-                fs.readFile(realPath, 'utf8', function(err, file) {
+                fs.readFile(realPath, 'binary', function(err, file) {
                     if ( err ) {
                         res.writeHead(500, {
                             'Content-Type': 'text/plain'
@@ -32,7 +32,7 @@ function route(handle, pathname, req, res) {
                         res.writeHead(200, {
                             'Content-Type': contentType
                         });
-                        res.write(file);
+                        res.write(file, 'binary');
                         res.end();
                     }
                 });

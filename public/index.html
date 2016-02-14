@@ -3,13 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Message Board</title>
-    <link rel="stylesheet" href="./stylesheets/src/index.css">
+    <link rel="stylesheet" href="./Font-Awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./stylesheets/src/all.min.css">
 </head>
 <body>
-    <div class="wrap">
-        <h1>Message Board</h1>
-        <div id="commentWrap" class="comment-wrap"></div>
-    </div>
+    <header class="board-header-container">
+        <h1 class="board-header-title">leave a message</h1>
+    </header>
+    <div id="js_board_main_container" class="board-main-container"></div>
+    <a id="js_back_to_top">
+        <i class="fa fa-angle-up"></i>
+    </a>
     <script src="./javascript/src/bundle.js"></script>
+    <script src="./javascript/src/form.interaction.min.js"></script>
 </body>
 </html>

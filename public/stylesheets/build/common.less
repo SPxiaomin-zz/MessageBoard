@@ -1,0 +1,33 @@
+.clearfix {
+    zoom: 1;
+
+    &::after {
+        display: block;
+
+        height: 0;
+
+        content: " ";
+        visibility: hidden;
+        clear: both;
+    }
+}
+
+@font-face {
+    font-family: fontawesome;
+    src: url(fonts/fontawesome-webfont.ttf),
+        url(fonts/FontAwesome.otf);
+}
+
+body {
+    color: #fff;
+    font: 16px fontawesome;
+    line-height: 1.42857143;
+
+    background: url(/images/back1.jpg) no-repeat center center fixed;
+    background-size: cover;
+}
+
+.board-main-container {
+    width: 700px;
+    margin:0 auto;
+}

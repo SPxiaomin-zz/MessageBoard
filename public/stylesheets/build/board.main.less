@@ -71,10 +71,19 @@
 }
 
 #js_back_to_top {
+    display: none;
+
     position: fixed;
     right: 10px;
     bottom: 10px;
 
+    &.show {
+        display: block;
+    }
+
+    &.hide {
+        display: none;
+    }
 
     i {
         width: 30px;
@@ -82,10 +91,16 @@
 
         border-radius: 2px;
 
-        color: #fff; //stop
+        color: #fff;
+        line-height: 30px;
+        text-align: center;
 
         background: #36bbce;
 
-        line-height: 30px;
+        transition: all .5s;
+
+        &:hover {
+            background: #276D77;
+        }
     }
 }

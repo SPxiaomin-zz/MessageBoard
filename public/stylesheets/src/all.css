@@ -238,10 +238,12 @@ input[type="submit"] {
   color: #36bbce;
   background: #fcfcfc;
   cursor: pointer;
+  -webkit-transition: all .5s;
+  transition: all .5s;
 }
 input[type="submit"]:hover {
   border-color: #36bbce;
-  box-shadow: inset 0 0 20px rgba(54, 187, 206, 0.32);
+  box-shadow: 0 0 20px rgba(54, 187, 206, 0.32);
 }
 .form-hint {
   display: none;
@@ -378,15 +380,28 @@ input[type="submit"]:hover {
   visibility: visible;
 }
 #js_back_to_top {
+  display: none;
   position: fixed;
   right: 10px;
   bottom: 10px;
+}
+#js_back_to_top.show {
+  display: block;
+}
+#js_back_to_top.hide {
+  display: none;
 }
 #js_back_to_top i {
   width: 30px;
   height: 30px;
   border-radius: 2px;
   color: #fff;
-  background: #36bbce;
   line-height: 30px;
+  text-align: center;
+  background: #36bbce;
+  -webkit-transition: all .5s;
+  transition: all .5s;
+}
+#js_back_to_top i:hover {
+  background: #276D77;
 }

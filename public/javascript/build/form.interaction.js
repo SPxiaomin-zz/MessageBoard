@@ -83,3 +83,46 @@ function formInteraction() {
 }
 
 addLoadEvent(formInteraction);
+
+
+function scrollTop() {
+    var btn = document.getElementById("js_back_to_top");
+    var timer = null;
+    var isTop = true;
+
+    window.onscroll = function() {
+        var osTop = document.documentElement.scrollTop || document.body.scrollTop;
+
+        if ( osTop >= 30 ) {
+            btn.className = 'show';
+        } else {
+            btn.className = 'hide';
+        }
+
+        if ( !isTop ) {
+            clearTimeout(timer);
+        }
+        isTop = false;
+    };
+
+    function scroll() {
+        var osTop = document.documentElement.scrollTop || document.body.scrollTop;
+        var speed = Math.ceil(osTop / 13);
+
+        document.documentElement.scrollTop = document.body.scrollTop = osTop - speed;
+
+        isTop = true;
+
+        if ( osTop > 0 ) {
+            timer = setTimeout(scroll, 30);
+        }
+    }
+
+    btn.onclick = function() {
+        timer = setTimeout(scroll, 30);
+
+        return false;
+    };
+}
+
+addLoadEvent(scrollTop);

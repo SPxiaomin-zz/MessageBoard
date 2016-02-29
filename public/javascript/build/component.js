@@ -57,6 +57,66 @@ var CommentForm = React.createClass({
 
         return;
     },
+    nameFocusHandler: function() {
+        var nameInput = this.refs.author;
+        var nameCnt = this.refs.nameCnt;
+
+        var nameLength = nameInput.value.trim().length;
+
+        nameCnt.innerHTML = nameLength;
+
+        var re = /[^a-zA-Z \u4e00-\u9fa5]/g;
+
+        if ( re.test(nameInput.value.trim()) || nameLength === 0 || nameLength > 18 ) {
+            nameInput.className = 'invalid';
+        } else {
+            nameInput.className = 'valid';
+        }
+    },
+    nameKeyupHandler: function() {
+        var nameInput = this.refs.author;
+        var nameCnt = this.refs.nameCnt;
+
+        var nameLength = nameInput.value.trim().length;
+
+        nameCnt.innerHTML = nameLength;
+
+        var re = /[^a-zA-Z \u4e00-\u9fa5]/g;
+
+        if ( re.test(nameInput.value.trim()) || nameLength === 0 || nameLength > 18 ) {
+            nameInput.className = 'invalid';
+        } else {
+            nameInput.className = 'valid';
+        }
+    },
+    msgFocusHandler: function() {
+        var msgTextarea = this.refs.msg;
+        var msgCnt = this.refs.msgCnt;
+
+        var msgLength = msgTextarea.value.length;
+
+        msgCnt.innerHTML = msgLength;
+
+        if ( msgLength <= 0 || msgLength > 240 ) {
+            msgTextarea.className = 'invalid';
+        } else {
+            msgTextarea.className = 'valid';
+        }
+    },
+    msgKeyupHandler: function() {
+        var msgTextarea = this.refs.msg;
+        var msgCnt = this.refs.msgCnt;
+
+        var msgLength = msgTextarea.value.length;
+
+        msgCnt.innerHTML = msgLength;
+
+        if ( msgLength <= 0 || msgLength > 240 ) {
+            msgTextarea.className = 'invalid';
+        } else {
+            msgTextarea.className = 'valid';
+        }
+    },
     render: function() {
         return (
             <div className='board-main-form' onSubmit={this.handleSubmit}>
@@ -65,13 +125,13 @@ var CommentForm = React.createClass({
                         <legend>comment here</legend>
                         <div>
                             <label htmlFor='name'>姓名</label>
-                            <input type='text' id='name' name='js_name' placeholder='Your name...' required ref='author' defaultValue={this.author} />
-                            <span id='js_name_form_hint' className='form-hint'>正确格式为：1~18个字符，可使用汉字、字母(已输入字符数: <span id='js_name_cnt'></span>)</span>
+                            <input type='text' id='name' name='js_name' placeholder='Your name...' required ref='author' defaultValue={this.author} onFocus={this.nameFocusHandler} onKeyUp={this.nameKeyupHandler} />
+                            <span id='js_name_form_hint' className='form-hint'>正确格式为：1~18个字符，可使用汉字、字母(已输入字符数: <span id='js_name_cnt' ref='nameCnt'></span>)</span>
                         </div>
                         <div>
                             <label htmlFor='msg'>留言</label>
-                            <textarea id='msg' name='js_msg' placeholder='Say something...' required ref='msg'></textarea>
-                            <span id='js_msg_form_hint' className='form-hint'>正确格式为：1~240个字符(已输入字符数: <span id='js_msg_cnt'></span>)</span>
+                            <textarea id='msg' name='js_msg' placeholder='Say something...' required ref='msg' onFocus={this.msgFocusHandler} onKeyUp={this.msgKeyupHandler}></textarea>
+                            <span id='js_msg_form_hint' className='form-hint'>正确格式为：1~240个字符(已输入字符数: <span id='js_msg_cnt' ref='msgCnt'></span>)</span>
                         </div>
                         <div>
                             <input type='submit' value='submit' />

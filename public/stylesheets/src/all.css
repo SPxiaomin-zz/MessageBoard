@@ -123,7 +123,7 @@ sub {
 }
 
 .clearfix {
-  zoom: 1;
+  *zoom: 1;
 }
 .clearfix::after {
   display: block;
@@ -140,8 +140,7 @@ body {
   color: #fff;
   font: 16px fontawesome;
   line-height: 1.42857143;
-  background: url(/images/back1.jpg) no-repeat center center fixed;
-  background-size: cover;
+  background: url(/images/src/back1.jpg) no-repeat center center/cover fixed;
 }
 .board-main-container {
   width: 700px;
@@ -199,7 +198,7 @@ textarea:focus + .form-hint {
 }
 input:required,
 textarea:required {
-  background: #fff url(/images/red_asterisk.png) no-repeat 98% center;
+  background: #fff url(/images/src/red_asterisk.png) no-repeat 98% center;
 }
 input.valid,
 textarea.valid {
@@ -219,7 +218,7 @@ input.invalid,
 textarea.invalid {
   border-color: #b03535;
   box-shadow: 0 0 5px #d45252;
-  background: #fff url(/images/invalid.png) no-repeat 98% center;
+  background: #fff url(/images/src/invalid.png) no-repeat 98% center;
 }
 input {
   width: 160px;
@@ -229,6 +228,7 @@ textarea {
   width: 540px;
   height: 139px;
   resize: none;
+  vertical-align: bottom;
 }
 input[type="submit"] {
   width: auto;

@@ -13,10 +13,15 @@ var cssnano = require('gulp-cssnano');
 var jshint = require('gulp-jshint');
 var uglify = require('gulp-uglify');
 
+var imagemin = require('gulp-imagemin');
+var pngquant = require('imagemin-pngquant');
+var jpegtran = require('imagemin-jpegtran');
+
 
 var paths = {
     css: ['./public/stylesheets/build/{reset,common}.less', './public/stylesheets/build/board.header.less', './public/stylesheets/build/board.main.{form,list}.less', './public/stylesheets/build/board.main.less'],
-    js: ['./public/javascript/build/form.interaction.js']
+    js: ['./public/javascript/build/form.interaction.js'],
+    image: ['./public/images/build/*']
 };
 
 
@@ -63,6 +68,7 @@ gulp.task('js', function() {
             return file.relative + ' (' + file.jshint.results.length + ' errors)\n' + errors;
         }))
         .pipe(uglify({
+            mangle: false
         }))
         .pipe(rename({
             extname: '.min.js'
@@ -74,11 +80,33 @@ gulp.task('js', function() {
     return stream;
 });
 
+gulp.task('image', function() {
+    var imageDest = './public/images/src';
+
+    var stream = gulp.src(paths.image)
+        .pipe(plumber({
+            errorHandler: notify.onError('Message:\n\t<%= error.message %>\nDetails:\n\tlineNumber: <%= error.lineNumber %>')
+        }))
+        .pipe(imagemin({
+            optimizationLevel: 1,
+            progressive: true,
+            interlaced: true,
+            multipass: true,
+            svgPlugins: [{removeViewBox: false}],
+            use: [pngquant(), jpegtran()]
+        }))
+        .pipe(gulp.dest(imageDest))
+        .pipe(livereload());
+
+    return stream;
+});
+
+
 function watcherCallback(event) {
     console.log('File ' + event.path + ' was ' + event.type + ', task running...');
 }
 
-gulp.task('default', ['css', 'js'], function() {
+gulp.task('default', ['css', 'js', 'image'], function() {
     livereload.listen();
 
     var watcherCss = gulp.watch(paths.css, ['css']);
@@ -86,4 +114,7 @@ gulp.task('default', ['css', 'js'], function() {
 
     var watcherJs = gulp.watch(paths.js, ['js']);
     watcherJs.on('change', watcherCallback);
+
+    var watcherImage = gulp.watch(paths.image, ['image']);
+    watcherImage.on('change', watcherCallback);
 });

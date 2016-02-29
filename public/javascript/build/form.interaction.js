@@ -13,84 +13,43 @@ function addLoadEvent(newFunc) {
     }
 }
 
-
-function nameInteraction(nameInput, nameCnt) {
-    nameInput.onfocus = function() {
-        var nameLength = nameInput.value.trim().length;
-
-        nameCnt.innerHTML = nameLength;
-
-        var re = /[^a-zA-Z \u4e00-\u9fa5]/g;
-
-        if ( re.test(nameInput.value.trim()) || nameLength === 0 || nameLength > 18 ) {
-            nameInput.className = 'invalid';
+var EventUtil = {
+    addHandler: function(element, type, handler) {
+        if ( element.addEventListener ) {
+            element.addEventListener(type, handler, false);
+        } else if ( element.attachEvent ) {
+            element.attachEvent('on' + type, handler);
         } else {
-            nameInput.className = 'valid';
+            element['on' + type] = handler;
         }
-    };
+    },
 
-    nameInput.onkeyup = function() {
-        var nameLength = nameInput.value.trim().length;
+    getEvent: function(event) {
+        return event ? event : window.event;
+    },
 
-        nameCnt.innerHTML = nameLength;
-
-        var re = /[^a-zA-Z \u4e00-\u9fa5]/g;
-
-        if ( re.test(nameInput.value.trim()) || nameLength === 0 || nameLength > 18 ) {
-            nameInput.className = 'invalid';
+    preventDefault: function(event) {
+        if ( event.preventDefault ) {
+            event.preventDefault();
         } else {
-            nameInput.className = 'valid';
+            event.returnValue = false;
         }
-    };
+    }
+};
+
+function throttle(method, context) {
+    clearTimeout(method.tId);
+    method.tId = setTimeout(function() {
+        method.call(context);
+    }, 100);
 }
-
-function msgInteraction(msgTextarea, msgCnt) {
-    msgTextarea.onfocus = function() {
-        var msgLength = msgTextarea.value.length;
-
-        msgCnt.innerHTML = msgLength;
-
-        if ( msgLength <= 0 || msgLength > 240 ) {
-            msgTextarea.className = 'invalid';
-        } else {
-            msgTextarea.className = 'valid';
-        }
-    };
-
-    msgTextarea.onkeyup = function() {
-        var msgLength = msgTextarea.value.length;
-
-        msgCnt.innerHTML = msgLength;
-
-        if ( msgLength <= 0 || msgLength > 240 ) {
-            msgTextarea.className = 'invalid';
-        } else {
-            msgTextarea.className = 'valid';
-        }
-    };
-}
-
-
-function formInteraction() {
-    var nameCnt = document.getElementById('js_name_cnt');
-    var msgCnt = document.getElementById('js_msg_cnt');
-    var formElements = document.forms.js_form.elements;
-    var nameInput = formElements.js_name;
-    var msgTextarea = formElements.js_msg;
-
-    nameInteraction(nameInput, nameCnt);
-    msgInteraction(msgTextarea, msgCnt);
-}
-
-addLoadEvent(formInteraction);
-
 
 function scrollTop() {
     var btn = document.getElementById("js_back_to_top");
-    var timer = null;
-    var isTop = true;
+    var timer;
+    var isTop;
 
-    window.onscroll = function() {
+    function handleScrollEvent() {
         var osTop = document.documentElement.scrollTop || document.body.scrollTop;
 
         if ( osTop >= 30 ) {
@@ -98,12 +57,16 @@ function scrollTop() {
         } else {
             btn.className = 'hide';
         }
+    }
+
+    EventUtil.addHandler(window, 'scroll', function() {
+        throttle(handleScrollEvent);
 
         if ( !isTop ) {
             clearTimeout(timer);
         }
         isTop = false;
-    };
+    });
 
     function scroll() {
         var osTop = document.documentElement.scrollTop || document.body.scrollTop;
@@ -118,11 +81,12 @@ function scrollTop() {
         }
     }
 
-    btn.onclick = function() {
-        timer = setTimeout(scroll, 30);
+    EventUtil.addHandler(btn, 'click', function(event) {
+        event = EventUtil.getEvent(event);
+        EventUtil.preventDefault(event);
 
-        return false;
-    };
+        timer = setTimeout(scroll, 30);
+    });
 }
 
 addLoadEvent(scrollTop);

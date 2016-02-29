@@ -1,5 +1,5 @@
 .clearfix {
-    zoom: 1;
+    *zoom: 1;
 
     &::after {
         display: block;
@@ -23,8 +23,7 @@ body {
     font: 16px fontawesome;
     line-height: 1.42857143;
 
-    background: url(/images/back1.jpg) no-repeat center center fixed;
-    background-size: cover;
+    background: ~"url(/images/src/back1.jpg) no-repeat center center/cover fixed";
 }
 
 .board-main-container {

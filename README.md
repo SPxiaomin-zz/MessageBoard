@@ -4,7 +4,7 @@
 
 <img src="./public/images/src/represent1.png" alt="最终效果图" />
 
-<img src="./public/images/src/represent2.png" alt="最终效果图 />
+<img src="./public/images/src/represent2.png" alt="最终效果图" />
 
 ## 使用技术
 
